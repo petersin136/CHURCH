@@ -23,7 +23,7 @@ export default function ProblemSection() {
       <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 opacity-50"></div>
       
       <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="max-w-6xl mx-auto text-center">
+        <div className="max-w-7xl mx-auto text-center">
           {/* Main Title */}
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6">
             왜 지금, 교회 홈페이지가 필요할까요?

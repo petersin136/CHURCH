@@ -21,8 +21,8 @@ export default function HeroSection() {
       <div className="absolute inset-0 bg-gradient-to-br from-gray-900/70 to-gray-700/70 z-[1]"></div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
-          <div className="text-white md:ml-[2cm]">
+        <div className="grid md:grid-cols-[1.2fr_0.8fr] lg:grid-cols-[1.3fr_0.7fr] gap-8 md:gap-12 items-center">
+          <div className="text-white md:ml-0 lg:ml-4">
             <p className="mb-2 md:mb-2 font-bold hero-subtitle" style={{ color: '#FFEA00', textShadow: '0 0 10px rgba(255, 234, 0, 0.8)' }}>
               교회 홈페이지 전문 제작
             </p>
