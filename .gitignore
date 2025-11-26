@@ -34,3 +34,6 @@ next-env.d.ts
 
 # cursor
 .cursor
+
+# nested CHURCH folder
+/CHURCH
