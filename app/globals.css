@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Dancing+Script:wght@400;600;700&family=Kalam:wght@300;400;700&family=Indie+Flower&family=Nanum+Pen+Script&family=Great+Vibes&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.highlight-yellow {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 50%, #FEF08A 50%);
+  display: inline;
+}
+
+.gradient-bg {
+  background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%);
+}
+
+.logo-circle {
+  animation: rotate 20s linear infinite;
+}
+
+.fixed-menu {
+  position: fixed;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 50;
+}
+
+.hover-scale {
+  transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+/* Hero Section 텍스트 크기 - 모바일 작게, 데스크톱 원래 크기 */
+.hero-subtitle {
+  font-size: 1.125rem; /* 모바일 작게 */
+}
+
+@media (min-width: 768px) {
+  .hero-subtitle {
+    font-size: 1.75rem; /* 데스크톱 원래 크기 */
+  }
+}
+
+.hero-title {
+  font-size: 2.5rem; /* 모바일 작게 */
+}
+
+@media (min-width: 768px) {
+  .hero-title {
+    font-size: 4.5rem; /* 데스크톱 원래 크기 */
+  }
+}
+
+.hero-text-1 {
+  font-size: 1.25rem; /* 모바일 작게 */
+}
+
+@media (min-width: 768px) {
+  .hero-text-1 {
+    font-size: 2.25rem; /* 데스크톱 원래 크기 */
+  }
+}
+
+.hero-text-2 {
+  font-size: 2.75rem; /* 모바일 작게 */
+}
+
+@media (min-width: 768px) {
+  .hero-text-2 {
+    font-size: 4.875rem; /* 데스크톱 원래 크기 */
+  }
+}
+
