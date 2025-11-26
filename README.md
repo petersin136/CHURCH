@@ -1,4 +1,6 @@
-# 교회 홈페이지 전문 제작 - 마케팅 웹사이트
+# CHURCH
+
+교회 홈페이지 전문 제작 - 마케팅 웹사이트
 
 Next.js + TypeScript + Tailwind CSS + Supabase 기반 마케팅 웹사이트
 
