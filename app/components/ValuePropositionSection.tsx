@@ -217,13 +217,14 @@ export default function ValuePropositionSection() {
           right: 50%;
           margin-left: -50vw;
           margin-right: -50vw;
-          min-height: clamp(100px, 12vw, 150px);
+          min-height: clamp(80px, 12vw, 150px);
           overflow: hidden;
-          display: flex;
+          display: flex !important;
           align-items: center;
           margin-top: 0;
           margin-bottom: 0;
-          padding: clamp(20px, 3vw, 40px) 0;
+          padding: clamp(16px, 3vw, 40px) 0;
+          visibility: visible !important;
         }
         .marquee-shell::before,
         .marquee-shell::after {
@@ -258,14 +259,21 @@ export default function ValuePropositionSection() {
         }
         .marquee-row :global(span) {
           font-family: "Poppins", "Pretendard Variable", "Noto Sans KR", sans-serif;
-          font-size: clamp(2.5rem, 7vw, 8rem);
+          font-size: clamp(2rem, 7vw, 8rem);
           font-weight: 700;
           letter-spacing: 0.05em;
           text-transform: capitalize;
           color: transparent;
-          -webkit-text-stroke-width: 2px;
+          -webkit-text-stroke-width: clamp(1.5px, 0.3vw, 2px);
           line-height: 1;
           white-space: nowrap;
+          display: inline-block;
+        }
+        @media (max-width: 768px) {
+          .marquee-row :global(span) {
+            font-size: clamp(1.8rem, 8vw, 3rem);
+            -webkit-text-stroke-width: 1.5px;
+          }
         }
         .marquee-row :global(.color-white) {
           -webkit-text-stroke-color: rgba(245, 158, 11, 0.85);
