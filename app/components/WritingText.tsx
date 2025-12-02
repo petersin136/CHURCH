@@ -6,12 +6,18 @@ interface WritingTextProps {
   text: string;
   fontSize?: string;
   delay?: number;
+  isVisible?: boolean;
 }
 
-export default function WritingText({ text, fontSize, delay = 0 }: WritingTextProps) {
+export default function WritingText({ text, fontSize, delay = 0, isVisible = true }: WritingTextProps) {
   const [visibleChars, setVisibleChars] = useState(0);
 
   useEffect(() => {
+    if (!isVisible) {
+      setVisibleChars(0);
+      return;
+    }
+
     const timer = setTimeout(() => {
       if (visibleChars < text.length) {
         const interval = setInterval(() => {
@@ -29,7 +35,7 @@ export default function WritingText({ text, fontSize, delay = 0 }: WritingTextPr
     }, delay);
 
     return () => clearTimeout(timer);
-  }, [text.length, delay, visibleChars]);
+  }, [text.length, delay, visibleChars, isVisible]);
 
   return (
     <span style={{ fontSize, fontFamily: "inherit" }}>

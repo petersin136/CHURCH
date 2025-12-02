@@ -12,7 +12,7 @@ export default function Navigation() {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 backdrop-blur-md z-40 border-b border-gray-200" style={{ backgroundColor: 'rgba(245, 245, 240, 0.95)' }}>
+    <nav className="fixed top-0 left-0 right-0 backdrop-blur-md z-40 border-b border-gray-200" style={{ backgroundColor: 'rgba(245, 245, 240, 0.7)' }}>
       <div className="container mx-auto px-3 md:px-6 py-2">
         <div className="flex justify-between items-center">
           <Link href="/" className="flex items-center space-x-2 md:space-x-3 cursor-pointer hover:opacity-80 transition">

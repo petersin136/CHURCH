@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "supabase": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-supabase"
+      ],
+      "env": {
+        "SUPABASE_URL": "https://hqpnwiaifysfpbpwixim.supabase.co",
+        "SUPABASE_SERVICE_ROLE_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhxcG53aWFpZnlzZnBicHdpeGltIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MzYwODEyNSwiZXhwIjoyMDc5MTg0MTI1fQ.xmdblYRTL1fA2KzpbY8wxQCvDKaccD-AYDMcADkmpis"
+      }
+    }
+  }
+}
+
+
+
+
+
