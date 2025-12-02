@@ -73,26 +73,40 @@ export default function ValuePropositionSection() {
     const container = containerRef.current;
     if (!container) return;
 
+    // 모바일 감지
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+
     let lastScrollTime = 0;
     let scrollAccumulator = 0;
     const SCROLL_THRESHOLD = 50; // 스크롤 임계값
     const SCROLL_COOLDOWN = 800; // 스크롤 쿨다운 (ms)
 
+    // 터치 관련 변수
+    let touchStartY = 0;
+    let touchEndY = 0;
+    const SWIPE_THRESHOLD = 50; // 스와이프 임계값
+
     const updateCurrentSection = () => {
-      const containerRect = container.getBoundingClientRect();
-      const containerTop = containerRect.top;
+      const viewportHeight = window.innerHeight;
+      let closestIndex = 0;
+      let closestDistance = Infinity;
       
       sectionRefs.current.forEach((section, index) => {
         if (section) {
           const sectionRect = section.getBoundingClientRect();
-          const sectionTop = sectionRect.top - containerTop;
+          const sectionCenter = sectionRect.top + sectionRect.height / 2;
+          const viewportCenter = viewportHeight / 2;
+          const distance = Math.abs(sectionCenter - viewportCenter);
           
-          // 섹션이 화면 상단에 가까우면 현재 섹션으로 설정
-          if (sectionTop >= -100 && sectionTop <= 100) {
-            currentSection.current = index;
+          // 화면 중앙에 가장 가까운 섹션을 현재 섹션으로 설정
+          if (distance < closestDistance) {
+            closestDistance = distance;
+            closestIndex = index;
           }
         }
       });
+      
+      currentSection.current = closestIndex;
     };
 
     const scrollToSection = (index: number) => {
@@ -115,7 +129,10 @@ export default function ValuePropositionSection() {
       }, SCROLL_COOLDOWN);
     };
 
+    // 데스크탑 wheel 이벤트
     const handleWheel = (e: WheelEvent) => {
+      if (isMobile) return;
+      
       updateCurrentSection();
       
       const isFirstSection = currentSection.current === 0;
@@ -123,13 +140,26 @@ export default function ValuePropositionSection() {
       const isScrollingDown = e.deltaY > 0;
       const isScrollingUp = e.deltaY < 0;
 
-      // 첫 번째 섹션에서 위로 스크롤하거나, 마지막 섹션에서 아래로 스크롤할 때는 자연스럽게 스크롤 허용
-      if ((isFirstSection && isScrollingUp) || (isLastSection && isScrollingDown)) {
-        // preventDefault 하지 않고 자연스럽게 스크롤되도록 함
+      // 컨테이너의 스크롤 위치 확인
+      const scrollTop = container.scrollTop;
+      const scrollHeight = container.scrollHeight;
+      const clientHeight = container.clientHeight;
+      const isAtTop = scrollTop === 0;
+      const isAtBottom = Math.abs(scrollHeight - clientHeight - scrollTop) < 1;
+
+      // 첫 번째 섹션이고 컨테이너 최상단에서 위로 스크롤
+      if (isFirstSection && isScrollingUp && isAtTop) {
+        // 이벤트를 막지 않고 부모로 전파
         return;
       }
 
-      // 중간 섹션에서는 스크롤 제어
+      // 마지막 섹션이고 컨테이너 최하단에서 아래로 스크롤
+      if (isLastSection && isScrollingDown && isAtBottom) {
+        // 이벤트를 막지 않고 부모로 전파
+        return;
+      }
+
+      // 중간 섹션이거나 경계가 아닌 경우 스크롤 제어
       e.preventDefault();
       e.stopPropagation();
       
@@ -144,7 +174,6 @@ export default function ValuePropositionSection() {
 
       scrollAccumulator += e.deltaY;
       
-      // 스크롤 임계값을 넘었을 때만 이동
       if (Math.abs(scrollAccumulator) < SCROLL_THRESHOLD) {
         return;
       }
@@ -157,9 +186,70 @@ export default function ValuePropositionSection() {
         // 아래로 스크롤
         if (currentSection.current < sectionRefs.current.length - 1) {
           scrollToSection(currentSection.current + 1);
+        } else if (isLastSection) {
+          // 마지막 섹션에서 컨테이너 끝까지 스크롤
+          container.scrollTop = scrollHeight;
         }
       } else {
         // 위로 스크롤
+        if (currentSection.current > 0) {
+          scrollToSection(currentSection.current - 1);
+        } else if (isFirstSection) {
+          // 첫 번째 섹션에서 컨테이너 시작까지 스크롤
+          container.scrollTop = 0;
+        }
+      }
+    };
+
+    // 모바일 터치 이벤트
+    const handleTouchStart = (e: TouchEvent) => {
+      if (!isMobile) return;
+      touchStartY = e.touches[0].clientY;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!isMobile) return;
+      touchEndY = e.touches[0].clientY;
+      
+      // 경계에서 자연스러운 스크롤을 위해 터치 무브는 막지 않음
+    };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      if (!isMobile || isScrolling.current) return;
+      
+      const swipeDistance = touchStartY - touchEndY;
+      
+      if (Math.abs(swipeDistance) < SWIPE_THRESHOLD) {
+        return;
+      }
+
+      updateCurrentSection();
+      
+      const isFirstSection = currentSection.current === 0;
+      const isLastSection = currentSection.current === sectionRefs.current.length - 1;
+      
+      // 컨테이너의 스크롤 위치 확인
+      const scrollTop = container.scrollTop;
+      const scrollHeight = container.scrollHeight;
+      const clientHeight = container.clientHeight;
+      const isAtTop = scrollTop === 0;
+      const isAtBottom = Math.abs(scrollHeight - clientHeight - scrollTop) < 1;
+      
+      if (swipeDistance > 0) {
+        // 위로 스와이프 (아래로 스크롤)
+        if (isLastSection && isAtBottom) {
+          // 마지막 섹션 최하단에서는 자연스러운 스크롤 허용
+          return;
+        }
+        if (currentSection.current < sectionRefs.current.length - 1) {
+          scrollToSection(currentSection.current + 1);
+        }
+      } else {
+        // 아래로 스와이프 (위로 스크롤)
+        if (isFirstSection && isAtTop) {
+          // 첫 번째 섹션 최상단에서는 자연스러운 스크롤 허용
+          return;
+        }
         if (currentSection.current > 0) {
           scrollToSection(currentSection.current - 1);
         }
@@ -171,14 +261,26 @@ export default function ValuePropositionSection() {
       updateCurrentSection();
     };
 
-    container.addEventListener('wheel', handleWheel, { passive: false });
+    // 이벤트 리스너 등록
+    if (!isMobile) {
+      container.addEventListener('wheel', handleWheel, { passive: false });
+    }
+    
+    container.addEventListener('touchstart', handleTouchStart, { passive: true });
+    container.addEventListener('touchmove', handleTouchMove, { passive: true });
+    container.addEventListener('touchend', handleTouchEnd, { passive: true });
     container.addEventListener('scroll', handleScroll, { passive: true });
 
     // 초기 현재 섹션 설정
     updateCurrentSection();
 
     return () => {
-      container.removeEventListener('wheel', handleWheel);
+      if (!isMobile) {
+        container.removeEventListener('wheel', handleWheel);
+      }
+      container.removeEventListener('touchstart', handleTouchStart);
+      container.removeEventListener('touchmove', handleTouchMove);
+      container.removeEventListener('touchend', handleTouchEnd);
       container.removeEventListener('scroll', handleScroll);
     };
   }, []);
@@ -212,12 +314,12 @@ export default function ValuePropositionSection() {
 
       <style jsx>{`
         .fullpage-scroll-container {
-          scroll-snap-type: y mandatory;
+          scroll-snap-type: y proximity;
           overflow-y: auto;
           height: 100vh;
           scroll-padding: 0;
           scroll-behavior: smooth;
-          overscroll-behavior: contain;
+          overscroll-behavior: none;
         }
 
         .fullpage-section {
@@ -227,11 +329,19 @@ export default function ValuePropositionSection() {
           display: flex;
           align-items: center;
           justify-content: center;
-          scroll-snap-align: start;
-          scroll-snap-stop: always;
+          scroll-snap-align: center;
+          scroll-snap-stop: normal;
           position: relative;
           transition: all 0.6s ease-in-out;
           flex-shrink: 0;
+        }
+        
+        .fullpage-section:first-child {
+          scroll-snap-align: start;
+        }
+        
+        .fullpage-section:last-child {
+          scroll-snap-align: end;
         }
 
         .fullpage-content {
@@ -278,23 +388,86 @@ export default function ValuePropositionSection() {
 
         /* 모바일 최적화 */
         @media (max-width: 768px) {
+          .fullpage-scroll-container {
+            -webkit-overflow-scrolling: touch;
+            scroll-snap-type: y mandatory;
+          }
+
+          .fullpage-section {
+            height: 100vh;
+            min-height: 100vh;
+            max-height: 100vh;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+          }
+
           .fullpage-content {
-            padding: 1.5rem;
+            padding: 1.5rem 1.25rem;
+            max-width: 100%;
+          }
+
+          .section-number {
+            font-size: 0.875rem;
+            margin-bottom: 1.25rem;
+            letter-spacing: 0.15em;
           }
 
           .section-title {
-            font-size: clamp(2rem, 6vw, 2.5rem);
+            font-size: clamp(1.75rem, 7vw, 2.25rem);
             margin-bottom: 1.5rem;
+            line-height: 1.4;
+            letter-spacing: -0.01em;
+            word-break: keep-all;
           }
 
           .section-description {
-            font-size: clamp(0.95rem, 3vw, 1.1rem);
+            font-size: clamp(0.9rem, 3.5vw, 1.05rem);
+            line-height: 1.75;
+            padding: 0 0.5rem;
+            word-break: keep-all;
+          }
+        }
+
+        /* 작은 모바일 (세로 모드) */
+        @media (max-width: 480px) {
+          .fullpage-content {
+            padding: 1.25rem 1rem;
+          }
+
+          .section-title {
+            font-size: clamp(1.5rem, 8vw, 2rem);
+            margin-bottom: 1.25rem;
+          }
+
+          .section-description {
+            font-size: clamp(0.85rem, 4vw, 1rem);
             line-height: 1.7;
           }
 
           .section-number {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             margin-bottom: 1rem;
+          }
+        }
+
+        /* 가로 모드 모바일 */
+        @media (max-width: 768px) and (orientation: landscape) {
+          .fullpage-content {
+            padding: 1rem;
+          }
+
+          .section-title {
+            font-size: clamp(1.5rem, 5vw, 2rem);
+            margin-bottom: 1rem;
+          }
+
+          .section-description {
+            font-size: clamp(0.85rem, 2.5vw, 1rem);
+            margin-bottom: 0.5rem;
+          }
+
+          .section-number {
+            font-size: 0.75rem;
+            margin-bottom: 0.75rem;
           }
         }
 
