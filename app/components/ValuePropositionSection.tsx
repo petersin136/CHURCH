@@ -1,3 +1,16 @@
+"use client";
+
+import { useState, useEffect, useRef } from "react";
+
+// 마키 텍스트 데이터
+const marqueeWords = Array.from({ length: 30 }, (_, index) => ({
+  label: "Church at Its Core",
+  colorClass: ["color-white", "color-red", "color-white", "color-green", "color-white"][index % 5],
+}));
+
+// 스크롤 오프셋 계산을 위한 유틸 함수
+const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
+
 export default function ValuePropositionSection() {
   const points = [
     "교회의 신앙고백을 보여줍니다.",
@@ -8,15 +21,65 @@ export default function ValuePropositionSection() {
     "온라인에서도 따뜻한 교제를 나눕니다.",
   ];
 
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const [scrollOffset, setScrollOffset] = useState(0);
+  const rafRef = useRef<number | null>(null);
+
+  // 스크롤 기반 오프셋 업데이트
+  useEffect(() => {
+    const updateOffset = () => {
+      if (!sectionRef.current) return;
+      const rect = sectionRef.current.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || 1;
+      const total = viewportHeight + rect.height;
+      const rawProgress = (viewportHeight - rect.top) / total;
+      const progress = clamp(rawProgress, 0, 1);
+      setScrollOffset((prev) => prev + ((-progress * 5) - prev) * 0.08);
+      rafRef.current = null;
+    };
+
+    const onScroll = () => {
+      if (rafRef.current) return;
+      rafRef.current = window.requestAnimationFrame(updateOffset);
+    };
+
+    updateOffset();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (rafRef.current) window.cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
+
   return (
-    <section className="py-16 md:py-24 lg:py-32 relative overflow-hidden" style={{ backgroundColor: '#F6F4EF' }}>
+    <section ref={sectionRef} className="relative overflow-hidden" style={{ backgroundColor: '#F6F4EF' }}>
       {/* Background decorative elements */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-yellow-400 to-orange-400 rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-blue-400 to-purple-400 rounded-full blur-3xl"></div>
       </div>
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
+      {/* 마키 효과 - 섹션 최상단 */}
+      <div className="marquee-shell w-full" aria-hidden>
+        <div
+          className="marquee-offset"
+          aria-hidden
+          style={{ transform: `translate3d(${scrollOffset}%, 0, 0)` }}
+        >
+          <div className="marquee-row">
+            {marqueeWords.map((item, index) => (
+              <span key={`main-${index}`} className={item.colorClass}>{`${item.label}\u00A0`}</span>
+            ))}
+          </div>
+          <div className="marquee-row" aria-hidden>
+            {marqueeWords.map((item, index) => (
+              <span key={`dup-${index}`} className={item.colorClass}>{`${item.label}\u00A0`}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4 md:px-6 relative z-10 py-16 md:py-24 lg:py-32">
         <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-center max-w-6xl mx-auto">
           {/* Left text block */}
           <div className="relative">
@@ -145,6 +208,83 @@ export default function ValuePropositionSection() {
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        .marquee-shell {
+          position: relative;
+          width: 100vw;
+          left: 50%;
+          right: 50%;
+          margin-left: -50vw;
+          margin-right: -50vw;
+          min-height: clamp(100px, 12vw, 150px);
+          overflow: hidden;
+          display: flex;
+          align-items: center;
+          margin-top: 0;
+          margin-bottom: 0;
+          padding: clamp(20px, 3vw, 40px) 0;
+        }
+        .marquee-shell::before,
+        .marquee-shell::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          right: 0;
+          height: clamp(15px, 1.5vw, 25px);
+          pointer-events: none;
+          z-index: 2;
+          background: linear-gradient(to bottom, #F6F4EF, transparent);
+        }
+        .marquee-shell::after {
+          top: auto;
+          bottom: 0;
+          background: linear-gradient(to top, #F6F4EF, transparent);
+        }
+        .marquee-shell::before {
+          top: 0;
+        }
+        .marquee-offset {
+          display: flex;
+          will-change: transform;
+        }
+        .marquee-row {
+          display: flex;
+          gap: clamp(2.5rem, 6vw, 5rem);
+          animation: marqueeFlow 260s linear infinite;
+        }
+        .marquee-row:nth-of-type(2) {
+          animation-delay: -130s;
+        }
+        .marquee-row :global(span) {
+          font-family: "Poppins", "Pretendard Variable", "Noto Sans KR", sans-serif;
+          font-size: clamp(2.5rem, 7vw, 8rem);
+          font-weight: 700;
+          letter-spacing: 0.05em;
+          text-transform: capitalize;
+          color: transparent;
+          -webkit-text-stroke-width: 2px;
+          line-height: 1;
+          white-space: nowrap;
+        }
+        .marquee-row :global(.color-white) {
+          -webkit-text-stroke-color: rgba(245, 158, 11, 0.85);
+        }
+        .marquee-row :global(.color-red) {
+          -webkit-text-stroke-color: rgba(251, 191, 36, 0.85);
+        }
+        .marquee-row :global(.color-green) {
+          -webkit-text-stroke-color: rgba(217, 119, 6, 0.85);
+        }
+        @keyframes marqueeFlow {
+          0% {
+            transform: translate3d(0, 0, 0);
+          }
+          100% {
+            transform: translate3d(-50%, 0, 0);
+          }
+        }
+      `}</style>
     </section>
   );
 }
