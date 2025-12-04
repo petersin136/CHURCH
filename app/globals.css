@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Dancing+Script:wght@400;600;700&family=Kalam:wght@300;400;700&family=Indie+Flower&family=Nanum+Pen+Script&family=Great+Vibes&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&family=Outfit:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -7,6 +9,184 @@
 
 * {
   font-family: 'Noto Sans KR', sans-serif;
+}
+
+html {
+  scroll-snap-type: none;
+  scroll-behavior: smooth;
+  scroll-padding-top: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Rotating Text Animation - Smooth slide down */
+.rotating-text {
+  position: relative;
+  height: 200px;
+  display: inline-block;
+  vertical-align: top;
+  overflow: hidden;
+}
+
+.rotating-text span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  transform: translateY(-50px);
+  animation: rotateText 12s infinite ease-in-out;
+}
+
+.rotating-text span:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.rotating-text span:nth-child(2) {
+  animation-delay: 4s;
+}
+
+.rotating-text span:nth-child(3) {
+  animation-delay: 8s;
+}
+
+@keyframes rotateText {
+  0% {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  40% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+}
+
+/* Ticker Animation - Company Hero Section Only */
+.ticker-wrapper {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  background: white;
+  border-top: 1px solid #e5e5e5;
+  padding: 20px 0;
+  z-index: 10;
+}
+
+.ticker {
+  display: flex;
+  animation: scroll 15s linear infinite;
+  white-space: nowrap;
+}
+
+.ticker-paused {
+  animation-play-state: paused;
+}
+
+.ticker span {
+  padding: 0 50px;
+  font-size: 14px;
+  color: #666;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Circular Rotating Text */
+.circular-text {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.circular-text svg {
+  width: 100%;
+  height: 100%;
+}
+
+.circular-text text {
+  fill: #4F46E5;
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+}
+
+/* 3D Brush Object */
+.brush-object {
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  width: 150px;
+  height: 150px;
+  animation: float 6s ease-in-out infinite;
+  z-index: 5;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(-15deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(-10deg);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .rotating-text {
+    height: 150px;
+  }
+  
+  .circular-text {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .brush-object {
+    width: 100px;
+    height: 100px;
+    top: 20px;
+    left: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 .highlight-yellow {
@@ -76,6 +256,212 @@
 @media (min-width: 768px) {
   .hero-text-2 {
     font-size: 4.875rem; /* 데스크톱 원래 크기 */
+  }
+}
+
+/* 마키 효과 스타일 */
+.marquee-shell {
+  position: relative;
+  min-height: clamp(150px, 18vw, 220px);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: clamp(30px, 5vw, 60px);
+  margin-bottom: clamp(44px, 7vw, 86px);
+  padding: 0;
+}
+
+.marquee-offset {
+  display: flex;
+  will-change: transform;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+.marquee-shell.marquee-top {
+  margin-top: clamp(-20px, -2vw, -10px);
+  padding-top: 0;
+  margin-bottom: clamp(20px, 3vw, 40px);
+  background-color: #ffffff;
+}
+
+.marquee-shell.marquee-top::before,
+.marquee-shell.marquee-top::after {
+  background: linear-gradient(to bottom, white, transparent);
+}
+
+.marquee-shell.marquee-top::after {
+  background: linear-gradient(to top, white, transparent);
+}
+
+
+.marquee-shell::before,
+.marquee-shell::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: clamp(12px, 1.2vw, 18px);
+  pointer-events: none;
+  z-index: 2;
+  background: linear-gradient(to bottom, #F6F4EF, transparent);
+}
+
+.marquee-shell::after {
+  top: auto;
+  bottom: 0;
+  background: linear-gradient(to top, #F6F4EF, transparent);
+}
+
+.marquee-shell::before {
+  top: 0;
+}
+
+.marquee-offset {
+  display: flex;
+  will-change: transform;
+}
+
+.marquee-row {
+  display: flex;
+  gap: clamp(2rem, 5vw, 4rem);
+  animation: marqueeFlow 260s linear infinite;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.marquee-row:nth-of-type(2) {
+  animation-delay: -130s;
+}
+
+.marquee-row span {
+  font-family: "Inter", "Noto Sans KR", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: clamp(4rem, 10vw, 12rem);
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1;
+  white-space: nowrap;
+  font-feature-settings: "liga" 0, "kern" 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  display: inline-block;
+}
+
+.color-black {
+  color: #000000;
+}
+
+.color-white {
+  color: #000000;
+}
+
+.color-red {
+  color: #FF4444;
+}
+
+.color-green {
+  -webkit-text-stroke-color: #44FF88;
+}
+
+@keyframes marqueeFlow {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* 풀페이지 스크롤 애니메이션 */
+.fullpage-scroll-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.fullpage-scroll-container {
+  position: relative;
+  width: 100%;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+
+.fullpage-scroll-section {
+  height: 100vh;
+  min-height: 100vh;
+  max-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  scroll-snap-margin: 0;
+  flex-shrink: 0;
+}
+
+.fullpage-scroll-content {
+  text-align: center;
+  padding: 2rem 4rem;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 1s ease-out, transform 1s ease-out;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 95%;
+}
+
+.fullpage-scroll-number {
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 700;
+  opacity: 0.3;
+  margin-bottom: 2rem;
+  letter-spacing: 0.1em;
+}
+
+.fullpage-scroll-content-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fullpage-scroll-title {
+  font-family: "Noto Serif KR", "Playfair Display", serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  margin-bottom: 1.5rem;
+}
+
+.fullpage-scroll-subtitle {
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  font-weight: 500;
+  line-height: 1.5;
+  margin-bottom: 2rem;
+  opacity: 0.8;
+}
+
+.fullpage-scroll-description {
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+  font-weight: 400;
+  line-height: 1.8;
+  white-space: pre-line;
+  letter-spacing: 0.01em;
+}
+
+@media (max-width: 768px) {
+  .fullpage-scroll-text {
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    padding: 1.5rem;
   }
 }
 
