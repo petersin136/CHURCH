@@ -40,8 +40,8 @@ export default function FAQSection() {
     <section id="faq" className="py-16 md:py-24 bg-white">
       <div className="container mx-auto px-4 md:px-6">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12 md:mb-16">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900">
+          <div className="text-center mb-8 md:mb-16">
+            <h2 className="text-xl md:text-4xl lg:text-5xl font-bold text-gray-900">
               자주 묻는 질문
             </h2>
           </div>
@@ -57,16 +57,16 @@ export default function FAQSection() {
                   onClick={() => toggleAccordion(index)}
                   className="w-full p-6 md:p-8 text-left flex justify-between items-start gap-4 hover:bg-gray-100 transition-colors"
                 >
-                  <p className="font-medium text-lg md:text-xl text-gray-900 pr-2">
+                  <p className="font-medium text-sm md:text-xl text-gray-900 pr-2">
                     {faq.question}
                   </p>
-                  <span className="text-2xl md:text-3xl text-gray-500 flex-shrink-0 transition-transform duration-300">
+                  <span className="text-lg md:text-3xl text-gray-500 flex-shrink-0 transition-transform duration-300">
                     {activeIndex === index ? '−' : '+'}
                   </span>
                 </button>
                 {activeIndex === index && (
                   <div className="px-6 md:px-8 pb-6 md:pb-8 pt-0">
-                    <p className="text-base md:text-lg text-gray-600 leading-relaxed whitespace-pre-line">
+                    <p className="text-sm md:text-lg text-gray-600 leading-relaxed whitespace-pre-line">
                       {faq.answer}
                     </p>
                   </div>

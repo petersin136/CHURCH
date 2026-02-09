@@ -76,11 +76,11 @@ export default function ProcessSection() {
   return (
     <section ref={sectionRef} id="process" className="py-16 md:py-24 lg:py-32 bg-gradient-to-b from-white to-gray-50 relative">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center mb-12 md:mb-16 lg:mb-20">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900">
+        <div className="text-center mb-8 md:mb-16 lg:mb-20">
+          <h2 className="text-xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900">
             PROCESS
           </h2>
-          <p className="mt-4 text-lg md:text-xl text-gray-600">작업 프로세스</p>
+          <p className="mt-3 md:mt-4 text-sm md:text-xl text-gray-600">작업 프로세스</p>
         </div>
 
         <div className="max-w-6xl mx-auto">
@@ -109,7 +109,7 @@ export default function ProcessSection() {
                   {/* Number badge */}
                   <div className="absolute top-4 left-4">
                     <div className="w-14 h-14 md:w-16 md:h-16 bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center border-2 border-white/30">
-                      <span className="text-white font-bold text-xl md:text-2xl">{process.number}</span>
+                      <span className="text-white font-bold text-base md:text-2xl">{process.number}</span>
                     </div>
                   </div>
                   
@@ -125,10 +125,10 @@ export default function ProcessSection() {
                       {process.highlight}
                     </span>
                   </div>
-                  <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 md:mb-4">
+                  <h3 className="text-base md:text-2xl font-bold text-gray-900 mb-2 md:mb-4">
                     {process.title}
                   </h3>
-                  <p className="text-sm md:text-base text-gray-600 leading-relaxed">
+                  <p className="text-xs md:text-base text-gray-600 leading-relaxed">
                     {process.description}
                   </p>
                 </div>

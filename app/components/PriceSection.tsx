@@ -47,8 +47,8 @@ export default function PriceSection() {
   return (
     <section id="price" className="py-16 md:py-24 bg-gray-100">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center mb-12 md:mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+        <div className="text-center mb-8 md:mb-16">
+          <h2 className="text-xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 md:mb-4">
             교회 규모에 관계없이, 공평한 가격
           </h2>
         </div>
@@ -71,21 +71,21 @@ export default function PriceSection() {
               )}
               
               <div className="text-center mb-6">
-                <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+                <h3 className="text-lg md:text-3xl font-bold text-gray-900 mb-1 md:mb-2">
                   {plan.name}
                 </h3>
-                <p className="text-sm md:text-base text-gray-600 mb-4">
+                <p className="text-xs md:text-base text-gray-600 mb-3 md:mb-4">
                   {plan.description}
                 </p>
-                <div className="text-3xl md:text-4xl font-bold text-gray-900">
+                <div className="text-xl md:text-4xl font-bold text-gray-900">
                   {plan.price}
                 </div>
               </div>
 
-              <ul className="space-y-3 md:space-y-4 mb-8 text-sm md:text-base text-gray-700">
+              <ul className="space-y-2 md:space-y-4 mb-6 md:mb-8 text-xs md:text-base text-gray-700">
                 {plan.features.map((feature, idx) => (
                   <li key={idx} className="flex items-start">
-                    <span className="text-yellow-500 mr-2 text-xl">✓</span>
+                    <span className="text-yellow-500 mr-2 text-base md:text-xl flex-shrink-0">✓</span>
                     <span>{feature}</span>
                   </li>
                 ))}
@@ -106,7 +106,7 @@ export default function PriceSection() {
 
         {/* CTA Button below */}
         <div className="text-center mt-12 md:mt-16">
-          <button className="bg-gray-900 text-white px-8 md:px-12 py-4 md:py-5 rounded-lg text-lg md:text-xl font-bold hover:bg-gray-800 transition-colors shadow-lg">
+          <button className="bg-gray-900 text-white px-6 md:px-12 py-3 md:py-5 rounded-lg text-sm md:text-xl font-bold hover:bg-gray-800 transition-colors shadow-lg">
             맞춤 견적 상담 요청
           </button>
         </div>

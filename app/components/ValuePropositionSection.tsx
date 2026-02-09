@@ -46,46 +46,46 @@ export default function ValuePropositionSection() {
     },
   ];
 
-  // 풀페이지 스크롤 섹션 데이터
+  // 풀페이지 스크롤 섹션 데이터 (제목은 모바일 줄바꿈 방지로 짧게)
   const scrollSections = [
     {
       bgColor: "#F5F1E8",
-      title: "교회의 신앙고백을 보여줍니다",
+      title: "교회의 신앙고백",
       subtitle: "교회의 신앙 정체성 확립",
       description: "\"우리 교회가 믿는 것\"을 명확히 전달하여,\n흔들림 없는 신앙의 뿌리를 보여줍니다.",
       textColor: "#2C2C2C",
     },
     {
       bgColor: "#E8D5CE",
-      title: "목회 철학과 정체성을 담습니다",
+      title: "목회 철학과 정체성",
       subtitle: "목사님의 비전 공유",
       description: "목회 철학과 교회만의 고유한 색깔을 담아,\n목사님의 뜻을 성도들과 나누는 통로가 됩니다.",
       textColor: "#3D2F2F",
     },
     {
       bgColor: "#A8AFA3",
-      title: "새신자를 안내합니다",
+      title: "새신자 안내",
       subtitle: "새신자에게 친절한 길잡이",
       description: "교회 오시는 길, 등록 방법 등 궁금한 모든 것을\n쉽게 찾아볼 수 있도록 처음 오는 분들을 환영합니다.",
       textColor: "#1A1F1A",
     },
     {
       bgColor: "#C9A88E",
-      title: "떠난 성도에게 길을 열어줍니다",
+      title: "돌아올 길을 엽니다",
       subtitle: "돌아오는 성도를 위한 창구",
       description: "사정상 교회를 떠났던 분들도 부담 없이\n언제든 다시 교회의 소식을 접하고 돌아올 수 있는 마음의 문을 열어줍니다.",
       textColor: "#2C1F1A",
     },
     {
       bgColor: "#8B8D8A",
-      title: "교회의 가치와 비전을 전달합니다",
+      title: "가치와 비전 전달",
       subtitle: "교회의 사명과 비전 확산",
       description: "교회가 추구하는 가치와 앞으로의 계획을 널리 알려,\n성도들의 헌신과 다음 세대의 동참을 이끌어냅니다.",
       textColor: "#1A1A1A",
     },
     {
       bgColor: "#5B6B7C",
-      title: "온라인에서도 따뜻한 교제를 나눕니다",
+      title: "따뜻한 교제",
       subtitle: "언제나 연결된 따뜻한 공동체",
       description: "설교, 주보, 소식 등을 실시간으로 공유하여,\n온라인 환경에서도 성도 간의 사랑과 교제를 지속하게 합니다.",
       textColor: "#E8E8E8",
@@ -96,105 +96,178 @@ export default function ValuePropositionSection() {
   const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Intersection Observer로 섹션 가시성 감지 및 부드러운 스크롤 스냅
+  // 2~3번 스크롤에 한 번씩 섹션 전환 (너무 민감하지 않게)
+  const SCROLL_THRESHOLD = 320; // 휠 2~3번 분량 (한 번에 ~100–120 정도)
+  const COOLDOWN_MS = 500;
+  const scrollAccumulator = useRef(0);
+  const lastWheelTime = useRef(0);
+  const cooldownUntil = useRef(0);
+  const currentSectionIndex = useRef(0);
+
+  // 현재 보이는 섹션 인덱스 갱신 (스크롤/스냅 후)
+  const updateCurrentSectionIndex = () => {
+    const windowHeight = window.innerHeight;
+    let closestIndex = 0;
+    let closestDistance = Infinity;
+    sectionRefs.current.forEach((ref, index) => {
+      if (!ref) return;
+      const rect = ref.getBoundingClientRect();
+      const distance = Math.abs(rect.top + rect.height / 2 - windowHeight / 2);
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestIndex = index;
+      }
+    });
+    currentSectionIndex.current = closestIndex;
+  };
+
+  const goToSection = (index: number) => {
+    const section = sectionRefs.current[index];
+    if (!section) return;
+    section.scrollIntoView({ behavior: "smooth", block: "start" });
+    currentSectionIndex.current = index;
+  };
+
+  // Intersection Observer로 섹션 가시성
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
-    let isScrolling = false;
-    let lastScrollTime = 0;
-
-    // 부드러운 스크롤 스냅 함수
-    const snapToSection = (index: number) => {
-      const section = sectionRefs.current[index];
-      if (!section || isScrolling) return;
-
-      isScrolling = true;
-      section.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      });
-
-      setTimeout(() => {
-        isScrolling = false;
-      }, 800);
-    };
-
-    // 약간의 지연 후 observer 설정
     const timer = setTimeout(() => {
       sectionRefs.current.forEach((ref, index) => {
         if (!ref) return;
-
         const observer = new IntersectionObserver(
           (entries) => {
             entries.forEach((entry) => {
               if (entry.isIntersecting) {
                 setVisibleSections((prev) => {
-                  const newState = [...prev];
-                  newState[index] = true;
-                  return newState;
+                  const next = [...prev];
+                  next[index] = true;
+                  return next;
                 });
               }
             });
           },
-          {
-            threshold: [0.3],
-            rootMargin: "0px",
-          }
+          { threshold: [0.3], rootMargin: "0px" }
         );
-
         observer.observe(ref);
         observers.push(observer);
       });
     }, 100);
 
-    // 스크롤이 완전히 멈췄을 때만 부드럽게 스냅
-    let scrollTimeout: NodeJS.Timeout;
-    const handleScrollEnd = () => {
-      const now = Date.now();
-      if (isScrolling || now - lastScrollTime < 100) return;
-      
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
-        if (isScrolling) return;
-
-        const scrollY = window.scrollY;
-        const windowHeight = window.innerHeight;
-        
-        // 섹션들의 위치 계산
-        let closestIndex = -1;
-        let closestDistance = Infinity;
-
-        sectionRefs.current.forEach((ref, index) => {
-          if (!ref) return;
-
-          const rect = ref.getBoundingClientRect();
-          const sectionTop = rect.top;
-          const distance = Math.abs(sectionTop);
-
-          if (distance < closestDistance) {
-            closestDistance = distance;
-            closestIndex = index;
-          }
-        });
-
-        // 섹션이 화면 중앙에서 20% 이상 벗어났을 때만 부드럽게 스냅
-        if (closestIndex !== -1 && closestDistance > windowHeight * 0.2 && closestDistance < windowHeight * 0.8) {
-          snapToSection(closestIndex);
-        }
-      }, 300);
-    };
-
-    const handleScroll = () => {
-      lastScrollTime = Date.now();
-      handleScrollEnd();
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-
     return () => {
       clearTimeout(timer);
-      clearTimeout(scrollTimeout);
-      window.removeEventListener('scroll', handleScroll);
-      observers.forEach((observer) => observer.disconnect());
+      observers.forEach((o) => o.disconnect());
+    };
+  }, []);
+
+  // 휠: 2~3번 모아서 한 섹션씩 이동
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      const now = Date.now();
+      if (now < cooldownUntil.current) {
+        e.preventDefault();
+        return;
+      }
+
+      const containerRect = container.getBoundingClientRect();
+      const inView = containerRect.top < window.innerHeight * 0.5 && containerRect.bottom > window.innerHeight * 0.5;
+      if (!inView) return;
+
+      updateCurrentSectionIndex();
+      const current = currentSectionIndex.current;
+
+      // 첫 섹션에서 위로, 마지막 섹션에서 아래로는 기본 스크롤 허용
+      if (current === 0 && e.deltaY < 0) return;
+      if (current === 5 && e.deltaY > 0) return;
+
+      e.preventDefault();
+      const prev = scrollAccumulator.current;
+      scrollAccumulator.current += e.deltaY;
+      // 방향 바뀌면 누적값 리셋 (2~3번만 정확히 세기 위해)
+      if ((prev >= 0 && e.deltaY < 0) || (prev <= 0 && e.deltaY > 0)) scrollAccumulator.current = e.deltaY;
+
+      const threshold = SCROLL_THRESHOLD;
+      if (scrollAccumulator.current >= threshold) {
+        scrollAccumulator.current = 0;
+        cooldownUntil.current = now + COOLDOWN_MS;
+        if (current < 5) goToSection(current + 1);
+      } else if (scrollAccumulator.current <= -threshold) {
+        scrollAccumulator.current = 0;
+        cooldownUntil.current = now + COOLDOWN_MS;
+        if (current > 0) goToSection(current - 1);
+      }
+    };
+
+    window.addEventListener("wheel", handleWheel, { passive: false });
+    return () => window.removeEventListener("wheel", handleWheel);
+  }, []);
+
+  // 터치: 스와이프 거리로 2~3번 분량 모아서 한 섹션씩
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    let touchStartY = 0;
+    let touchAccum = 0;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartY = e.touches[0].clientY;
+      touchAccum = 0;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      const dy = touchStartY - e.touches[0].clientY;
+      touchAccum += dy;
+      touchStartY = e.touches[0].clientY;
+    };
+
+    const handleTouchEnd = () => {
+      const now = Date.now();
+      if (now < cooldownUntil.current) return;
+
+      const containerRect = container.getBoundingClientRect();
+      const inView = containerRect.top < window.innerHeight * 0.5 && containerRect.bottom > window.innerHeight * 0.5;
+      if (!inView) return;
+
+      updateCurrentSectionIndex();
+      const current = currentSectionIndex.current;
+
+      if (current === 0 && touchAccum > 0) return;
+      if (current === 5 && touchAccum < 0) return;
+
+      const threshold = SCROLL_THRESHOLD;
+      if (touchAccum >= threshold && current < 5) {
+        cooldownUntil.current = now + COOLDOWN_MS;
+        goToSection(current + 1);
+      } else if (touchAccum <= -threshold && current > 0) {
+        cooldownUntil.current = now + COOLDOWN_MS;
+        goToSection(current - 1);
+      }
+    };
+
+    container.addEventListener("touchstart", handleTouchStart, { passive: true });
+    container.addEventListener("touchmove", handleTouchMove, { passive: true });
+    container.addEventListener("touchend", handleTouchEnd, { passive: true });
+    return () => {
+      container.removeEventListener("touchstart", handleTouchStart);
+      container.removeEventListener("touchmove", handleTouchMove);
+      container.removeEventListener("touchend", handleTouchEnd);
+    };
+  }, []);
+
+  // 스크롤 멈췄을 때 현재 섹션 인덱스 동기화
+  useEffect(() => {
+    let tick: number;
+    const onScroll = () => {
+      cancelAnimationFrame(tick);
+      tick = requestAnimationFrame(() => updateCurrentSectionIndex());
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      cancelAnimationFrame(tick);
+      window.removeEventListener("scroll", onScroll);
     };
   }, []);
 

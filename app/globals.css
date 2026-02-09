@@ -38,7 +38,7 @@ body {
   top: 0;
   opacity: 0;
   transform: translateY(-50px);
-  animation: rotateText 12s infinite ease-in-out;
+  animation: rotateText 6s infinite ease-in-out;
 }
 
 .rotating-text span:nth-child(1) {
@@ -46,11 +46,11 @@ body {
 }
 
 .rotating-text span:nth-child(2) {
-  animation-delay: 4s;
+  animation-delay: 2s;
 }
 
 .rotating-text span:nth-child(3) {
-  animation-delay: 8s;
+  animation-delay: 4s;
 }
 
 @keyframes rotateText {
@@ -458,10 +458,31 @@ body {
   letter-spacing: 0.01em;
 }
 
+/* 모바일: 01~06 풀페이지 섹션 글씨 크기 (데스크톱 비율로 가독성 확보) */
 @media (max-width: 768px) {
+  .fullpage-scroll-content {
+    padding: 1rem 1.25rem;
+  }
+  .fullpage-scroll-number {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+  }
+  .fullpage-scroll-title {
+    font-size: 1.35rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.35;
+  }
+  .fullpage-scroll-subtitle {
+    font-size: 0.875rem;
+    margin-bottom: 0.75rem;
+  }
+  .fullpage-scroll-description {
+    font-size: 0.8125rem;
+    line-height: 1.6;
+  }
   .fullpage-scroll-text {
-    font-size: clamp(1.5rem, 5vw, 2.5rem);
-    padding: 1.5rem;
+    font-size: 1.125rem;
+    padding: 1rem;
   }
 }
 

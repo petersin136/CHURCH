@@ -25,8 +25,8 @@ export default function CredibilitySection() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="max-w-6xl mx-auto">
           {/* Heading */}
-          <div className="text-center mb-12 md:mb-16">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Georgia, serif' }}>
+          <div className="text-center mb-8 md:mb-16">
+            <h2 className="text-xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 md:mb-4" style={{ fontFamily: 'Georgia, serif' }}>
               목회자들이 먼저 경험했습니다
             </h2>
           </div>
@@ -47,7 +47,7 @@ export default function CredibilitySection() {
                   >
                     <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.996 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.984zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z" />
                   </svg>
-                  <p className="text-base md:text-lg text-gray-700 leading-relaxed italic" style={{ fontFamily: 'Georgia, serif' }}>
+                  <p className="text-sm md:text-lg text-gray-700 leading-relaxed italic" style={{ fontFamily: 'Georgia, serif' }}>
                     "{testimonial.quote}"
                   </p>
                 </div>
@@ -55,9 +55,9 @@ export default function CredibilitySection() {
                 {/* Author info */}
                 <div className="flex flex-col items-center">
                   <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gray-300 mb-3 flex items-center justify-center">
-                    <span className="text-2xl md:text-3xl text-gray-500">👤</span>
+                    <span className="text-xl md:text-3xl text-gray-500">👤</span>
                   </div>
-                  <p className="font-bold text-gray-900 text-base md:text-lg">
+                  <p className="font-bold text-gray-900 text-sm md:text-lg">
                     {testimonial.author}
                   </p>
                   <p className="text-sm md:text-base text-gray-600">

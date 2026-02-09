@@ -64,13 +64,13 @@ export default function FeatureSliderSection() {
             <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
               {/* Left: Text */}
               <div>
-                <div className="text-4xl md:text-5xl font-bold text-gray-300 mb-4">
+                <div className="text-2xl md:text-5xl font-bold text-gray-300 mb-2 md:mb-4">
                   {features[activeIndex].number}
                 </div>
-                <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+                <h3 className="text-lg md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 md:mb-6">
                   {features[activeIndex].title}
                 </h3>
-                <p className="text-lg md:text-xl text-gray-600 leading-relaxed">
+                <p className="text-sm md:text-xl text-gray-600 leading-relaxed">
                   {features[activeIndex].description}
                 </p>
               </div>

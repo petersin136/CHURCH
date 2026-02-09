@@ -19,7 +19,7 @@ export default function FeaturesSection() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="max-w-6xl mx-auto">
           {/* Title */}
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 text-center mb-12 md:mb-16">
+          <h2 className="text-xl md:text-4xl lg:text-5xl font-bold text-gray-900 text-center mb-8 md:mb-16">
             교회에 꼭 필요한 기능만 담았습니다
           </h2>
 
@@ -38,7 +38,7 @@ export default function FeaturesSection() {
                 )}
                 
                 {/* Icon placeholder */}
-                <div className="text-4xl md:text-5xl mb-4 text-gray-700 opacity-60">
+                <div className="text-2xl md:text-5xl mb-3 md:mb-4 text-gray-700 opacity-60">
                   {index === 0 && "🏛️"}
                   {index === 1 && "📖"}
                   {index === 2 && "📢"}
@@ -48,7 +48,7 @@ export default function FeaturesSection() {
                 </div>
                 
                 {/* Feature name */}
-                <h3 className="text-xl md:text-2xl font-bold text-gray-900">
+                <h3 className="text-base md:text-2xl font-bold text-gray-900">
                   {feature}
                 </h3>
               </div>
