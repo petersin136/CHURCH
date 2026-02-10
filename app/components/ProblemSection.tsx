@@ -5,7 +5,7 @@ export default function ProblemSection() {
       <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 opacity-50"></div>
       
       <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="max-w-5xl mx-auto text-center">
+        <div className="max-w-6xl mx-auto text-center">
           {/* Content - 시적인 느낌의 텍스트 */}
           <div className="space-y-3 md:space-y-6 lg:space-y-8">
             <p className="text-base md:text-2xl lg:text-3xl xl:text-4xl text-white font-light" style={{ lineHeight: '1.5' }}>

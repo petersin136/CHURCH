@@ -41,7 +41,7 @@ export default function FeatureSliderSection() {
   return (
     <section className="py-16 md:py-24 bg-gray-50">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           {/* Tabs/Slider Navigation */}
           <div className="flex flex-wrap justify-center gap-4 md:gap-6 mb-12 md:mb-16 border-b border-gray-200 pb-4">
             {features.map((feature, index) => (

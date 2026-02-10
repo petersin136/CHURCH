@@ -79,8 +79,10 @@ const processes = [
     pull: "6px",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="#2a2a2a" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-        <path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+        <rect x="2" y="3" width="20" height="14" rx="2" />
+        <path d="M8 21h8" />
+        <path d="M12 17v4" />
+        <path d="M7 8h2M15 8h2M7 12h10" />
       </svg>
     ),
   },
@@ -96,6 +98,7 @@ const processes = [
       <svg viewBox="0 0 24 24" fill="none" stroke="#2a2a2a" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
         <path d="M12 18h.01" />
+        <rect x="9" y="6" width="6" height="10" rx="1" />
       </svg>
     ),
   },

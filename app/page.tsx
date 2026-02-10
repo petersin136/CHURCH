@@ -8,6 +8,8 @@ import ProblemSection from "./components/ProblemSection";
 import CompanyHeroSection from "./components/CompanyHeroSection";
 import InsightSection from "./components/InsightSection";
 import ValuePropositionSection from "./components/ValuePropositionSection";
+import WhyDifferentSection from "./components/WhyDifferentSection";
+import PortfolioShowcaseSection from "./components/PortfolioShowcaseSection";
 import ProcessSection from "./components/ProcessSection";
 import FeaturesSection from "./components/FeaturesSection";
 import FeatureSliderSection from "./components/FeatureSliderSection";
@@ -58,6 +60,8 @@ export default function Home() {
       <CompanyHeroSection />
       <InsightSection />
       <ValuePropositionSection />
+      <WhyDifferentSection />
+      <PortfolioShowcaseSection />
       <ProcessSection />
       <FeaturesSection />
       <FeatureSliderSection />

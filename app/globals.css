@@ -515,18 +515,22 @@ body {
   margin-right: auto;
 }
 .process-title-wrap h2 {
-  font-size: clamp(1.875rem, 5vw, 2.75rem);
-  font-weight: 800;
-  color: #0b0b0b;
-  margin: 0;
-  letter-spacing: -0.02em;
+  font-family: "Playfair Display", "Noto Sans KR", serif;
+  font-size: clamp(2.25rem, 5vw, 3.75rem);
+  font-weight: 700;
+  color: #000;
+  margin: 0 0 16px;
+  letter-spacing: -0.5px;
   line-height: 1.35;
+  text-align: center;
 }
 .process-title-wrap p {
-  font-size: clamp(0.9375rem, 1.5vw, 1.125rem);
+  font-size: clamp(1.125rem, 1.8vw, 1.5rem);
+  font-weight: 400;
   color: #555;
-  margin: 12px 0 0 0;
+  margin: 0;
   line-height: 1.6;
+  text-align: center;
 }
 .process-steps {
   width: 100%;
@@ -635,7 +639,7 @@ body {
 }
 .process-chip {
   align-self: flex-start;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 900;
   padding: 7px 12px;
   border-radius: 999px;
@@ -646,16 +650,16 @@ body {
 }
 .process-panel h3 {
   margin: 0;
-  font-size: 22px;
-  line-height: 1.25;
+  font-size: 20px;
+  line-height: 1.2;
   font-weight: 900;
   letter-spacing: -0.01em;
 }
 .process-panel p {
   margin: 0;
-  font-size: 15px;
-  line-height: 1.6;
-  opacity: 0.95;
+  font-size: 14px;
+  line-height: 1.55;
+  opacity: 0.9;
 }
 .process-c1 { background: #a8db3a; }
 .process-c1 .process-content { color: #0a0a0a; }
@@ -671,38 +675,41 @@ body {
 .process-c3 .process-badge { background: #05acd5; }
 .process-c4 { background: #0a79ff; }
 .process-c4 .process-content { color: #fff; }
+.process-c4 .process-icon svg { stroke: #1a1a1a; }
 .process-c4 .process-badge { background: #0b67f0; }
 .process-c5 { background: #1a4ea8; }
 .process-c5 .process-content { color: #fff; }
+.process-c5 .process-icon svg { stroke: #1a1a1a; }
 .process-c5 .process-badge { background: #163f8c; }
 .process-c6 { background: #173a86; }
 .process-c6 .process-content { color: #fff; }
+.process-c6 .process-icon svg { stroke: #1a1a1a; }
 .process-c6 .process-badge { background: #142f6e; }
 
-/* 기능 소개 섹션 — 지그재그 타임라인 (큰 버전) */
+/* 기능 소개 섹션 — 지그재그 타임라인 */
 .ft-section {
   background: #f2f3f5;
-  padding: clamp(64px, 10vw, 120px) clamp(20px, 4vw, 48px);
+  padding: clamp(80px, 12vw, 140px) clamp(32px, 6vw, 80px);
   overflow: hidden;
 }
 .ft-inner {
-  max-width: 1440px;
+  max-width: 1600px;
   margin: 0 auto;
 }
 .ft-title {
   font-family: "Playfair Display", "Noto Sans KR", serif;
-  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-size: clamp(2.25rem, 5vw, 3.75rem);
   font-weight: 700;
   color: #000;
   letter-spacing: -0.5px;
-  margin: 0 0 10px;
+  margin: 0 0 16px;
   text-align: center;
 }
 .ft-subtitle {
-  font-size: clamp(0.9375rem, 1.5vw, 1.25rem);
+  font-size: clamp(1.125rem, 1.8vw, 1.5rem);
   font-weight: 400;
   color: #555;
-  margin: 0 0 clamp(48px, 7vw, 80px);
+  margin: 0 0 clamp(56px, 8vw, 96px);
   text-align: center;
 }
 
@@ -716,47 +723,44 @@ body {
   top: 50%;
   left: 0;
   right: 0;
-  height: 12px;
+  height: 10px;
   border-radius: 999px;
   background: #e3e5f5;
   transform: translateY(-50%);
   z-index: 0;
 }
-/* 6열 그리드 */
+/* 6열 그리드 — 초기: 오른쪽에서 왼쪽으로 등장 */
 .ft-columns {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 12px;
+  gap: 16px;
   position: relative;
   z-index: 1;
 }
-/* 각 열: 우→좌 슬라이드 등장 (더 멀리, 더 느리게) */
+/* 각 열 — 우→좌 등장 애니메이션 */
 .ft-col {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
+  cursor: pointer;
   opacity: 0;
-  transform: translateX(100vw);
+  transform: translateX(120px);
   transition:
-    opacity 1.4s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.35s ease;
+  transition-delay: calc(var(--ft-i, 0) * 0.12s);
 }
 .ft-columns--visible .ft-col {
   opacity: 1;
   transform: translateX(0);
 }
-/* 호버: 확실하게 위로 튀어오름 */
 .ft-col:hover {
-  transform: translateY(-28px) scale(1.08);
+  transform: translateY(-14px) scale(1.06);
+  filter: drop-shadow(0 14px 28px rgba(0,0,0,0.2));
   z-index: 10;
-  filter: drop-shadow(0 16px 32px rgba(0,0,0,0.18));
 }
-.ft-columns--visible .ft-col:hover {
-  transform: translateY(-28px) scale(1.08);
-  filter: drop-shadow(0 16px 32px rgba(0,0,0,0.18));
-}
-
 /* 위 영역 / 아래 영역 */
 .ft-area {
   min-height: 220px;
@@ -764,38 +768,21 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
-  padding: 0 4px;
-  gap: 8px;
+  padding: 0 14px;
 }
 .ft-area--bottom {
   justify-content: flex-start;
 }
+.ft-col--top .ft-area--top {
+  justify-content: flex-end;
+}
 .ft-col--bottom .ft-area--top {
   justify-content: flex-end;
 }
-
-/* 글 박스 — 작은 설명글만 담는 흰색 카드 */
-.ft-card {
-  background: #fff;
-  border-radius: 12px;
-  padding: 18px 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 210px;
-  transition: box-shadow 0.25s ease, transform 0.25s ease;
-}
-.ft-col:hover .ft-card {
-  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.16);
-  transform: scale(1.04);
-}
-
-/* 육각형 — 더 크게 */
+/* 육각형 */
 .ft-hex {
-  width: clamp(110px, 12vw, 160px);
-  height: clamp(96px, 10.5vw, 140px);
+  width: clamp(100px, 12vw, 150px);
+  height: clamp(88px, 10.5vw, 130px);
   clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
   display: flex;
   align-items: center;
@@ -803,55 +790,70 @@ body {
   flex-shrink: 0;
   margin: 12px 0;
   z-index: 2;
-  transition: transform 0.3s ease;
+  transition: transform 0.35s cubic-bezier(.4,0,.2,1);
 }
 .ft-col:hover .ft-hex {
   transform: scale(1.18);
 }
 .ft-hex svg {
-  width: clamp(38px, 4.5vw, 56px);
-  height: clamp(38px, 4.5vw, 56px);
+  width: clamp(36px, 4.5vw, 56px);
+  height: clamp(36px, 4.5vw, 56px);
 }
-
-/* 라벨 — 약간 크게, 텍스트 좌정렬 */
+/* 라벨 */
 .ft-label {
   font-weight: 700;
-  font-size: clamp(13px, 1.25vw, 17px);
-  letter-spacing: 1px;
+  font-size: clamp(12px, 1.2vw, 16px);
+  letter-spacing: 1.2px;
   text-transform: uppercase;
-  padding: 10px 18px;
-  border-radius: 4px;
+  padding: 10px 20px;
+  border-radius: 6px;
+  margin-bottom: 12px;
   flex-shrink: 0;
-  width: 100%;
-  max-width: 210px;
-  text-align: left;
 }
-
-/* 제목 — 쪼금 줄임 */
+.ft-area--bottom .ft-label {
+  margin-bottom: 0;
+  margin-top: 12px;
+}
+/* 제목 */
 .ft-name {
-  font-size: clamp(0.9375rem, 1.2vw, 1.1875rem);
-  font-weight: 800;
+  font-size: clamp(0.9375rem, 1.25vw, 1.25rem);
+  font-weight: 700;
   color: #000;
   line-height: 1.35;
-  margin: 0;
+  margin: 0 0 8px;
 }
 .ft-name--solo {
-  margin-bottom: 10px;
+  min-height: 2.6em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-
-/* 설명 — 카드 안에 작은 글씨 */
+/* 하얀 글상자 (카드) */
+.ft-card {
+  width: 100%;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  margin-bottom: 12px;
+  transition: transform 0.35s cubic-bezier(.4,0,.2,1), box-shadow 0.35s ease;
+}
+.ft-col:hover .ft-card {
+  box-shadow: 0 10px 36px rgba(0,0,0,0.18);
+  transform: scale(1.05);
+}
+/* 설명 */
 .ft-desc {
-  font-size: clamp(0.8125rem, 1.05vw, 1rem);
+  font-size: clamp(0.875rem, 1.2vw, 1.125rem);
   font-weight: 400;
   color: #444;
   line-height: 1.6;
   margin: 0;
 }
-
 /* 하단 그라데이션 바 */
 .ft-gradient-bar {
-  height: 6px;
-  margin-top: clamp(40px, 6vw, 72px);
+  height: 7px;
+  margin-top: clamp(48px, 7vw, 72px);
   background: linear-gradient(to right, #94d327, #00c197, #00a3c4, #007bff, #175dc5, #18418d);
   border-radius: 999px;
 }
@@ -865,20 +867,15 @@ body {
   .ft-bar {
     display: none;
   }
+  .ft-col {
+    flex-direction: column;
+    transform: translateX(60px);
+  }
   .ft-area {
     min-height: auto;
   }
-  .ft-card {
-    max-width: 100%;
-  }
-  .ft-col {
-    transform: translateX(100vw);
-  }
-  .ft-col:hover {
-    transform: translateY(-16px) scale(1.04);
-  }
-  .ft-columns--visible .ft-col:hover {
-    transform: translateY(-16px) scale(1.04);
+  .ft-col--bottom .ft-area--top .ft-name {
+    order: -1;
   }
 }
 /* 태블릿 */
@@ -886,12 +883,9 @@ body {
   .ft-columns {
     grid-template-columns: repeat(3, 1fr);
     gap: 16px;
-    row-gap: 40px;
+    row-gap: 48px;
   }
   .ft-bar {
     display: none;
-  }
-  .ft-area {
-    min-height: 160px;
   }
 }

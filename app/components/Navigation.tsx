@@ -18,7 +18,7 @@ export default function Navigation() {
           <Link href="/" className="flex items-center space-x-2 md:space-x-3 cursor-pointer hover:opacity-80 transition">
             <div className="relative w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12">
               <Image
-                src="https://hqpnwiaifysfpbpwixim.supabase.co/storage/v1/object/public/media/KakaoTalk_Photo_2025-06-23-00-02-43%20002-Photoroom.png"
+                src="https://hqpnwiaifysfpbpwixim.supabase.co/storage/v1/object/public/media/KakaoTalk_Photo_2025-06-23-00-02-43%20002-Photoroom-Photoroom.png"
                 alt="Logo"
                 fill
                 className="object-contain"

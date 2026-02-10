@@ -120,14 +120,18 @@ export default function FeaturesSection() {
           <div className="ft-bar" aria-hidden="true" />
 
           <div className={`ft-columns${visible ? " ft-columns--visible" : ""}`}>
-            {features.map((f) => (
-              <div key={f.id} className={`ft-col ft-col--${f.position}`}>
+            {features.map((f, i) => (
+              <div
+                key={f.id}
+                className={`ft-col ft-col--${f.position}`}
+                style={{ "--ft-i": i } as React.CSSProperties}
+              >
                 {/* 위 영역 */}
                 <div className="ft-area ft-area--top">
                   {f.position === "top" && (
                     <>
                       <div className="ft-label" style={{ background: f.color, color: f.textOnColor }}>
-                        기능 {parseInt(f.id, 10)}
+                        Feature {f.id}
                       </div>
                       <div className="ft-card">
                         <p className="ft-desc">{f.description}</p>
@@ -153,7 +157,7 @@ export default function FeaturesSection() {
                         <p className="ft-desc">{f.description}</p>
                       </div>
                       <div className="ft-label" style={{ background: f.color, color: f.textOnColor }}>
-                        기능 {parseInt(f.id, 10)}
+                        Feature {f.id}
                       </div>
                     </>
                   )}

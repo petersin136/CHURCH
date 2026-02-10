@@ -63,7 +63,7 @@ export default function RotatingLogo() {
           }}
         >
           <Image
-            src="https://hqpnwiaifysfpbpwixim.supabase.co/storage/v1/object/public/media/KakaoTalk_Photo_2025-06-23-00-02-43%20002-Photoroom.png"
+            src="https://hqpnwiaifysfpbpwixim.supabase.co/storage/v1/object/public/media/KakaoTalk_Photo_2025-06-23-00-02-43%20002-Photoroom-Photoroom.png"
             alt="Logo"
             width={120}
             height={120}
